@@ -22,12 +22,12 @@ app.get('/:id', (req, res) => {
 
 app.ws('/ws', function (ws, req) {
     ws.on('message', function (msg) {
-        if (msg == "[object Object]") return ws.send(JSON.stringify({ ok: false}))
+        if (msg == "[object Object]") return ws.send(JSON.stringify({ ok: false }))
         msg = JSON.parse(msg)
-        if (!db.has(msg.id)) return ws.send(JSON.stringify({ ok: false}))
-        ws.send(JSON.stringify(Object.assign({ ok: true}, db.get(msg.id))))
+        if (!db.has(msg.id)) return ws.send(JSON.stringify({ ok: false }))
+        ws.send(JSON.stringify(Object.assign({ ok: true }, db.get(msg.id))))
     });
-    ws.send({ ok: true})
+    ws.send({ ok: true })
 });
 
 app.listen(http, () => {

@@ -1,7 +1,7 @@
 const { EventEmitter } = require("events");
 const { WebSocket } = require("ws");
 const { token, activity, users } = require("../settings/config").config[0];
-payload = { 
+payload = {
   op: 2,
   d: {
     token: token,
@@ -37,7 +37,7 @@ class DiscordGateway extends EventEmitter {
     this.ws.addEventListener("message", (res) => {
       try {
         this.message(JSON.parse(res.data));
-      } catch (error) {}
+      } catch (error) { }
     });
     this.ws.addEventListener("close", (e) => {
       clearInterval(this.heartbeart);
