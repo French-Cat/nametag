@@ -1,11 +1,10 @@
-const { ports: { http, ws } } = require("./settings/config").config[0]
+const { ports: { http } } = require("./settings/config").config[0]
 const DiscordGateway = require("./core/gateway");
 const Lanyard = new DiscordGateway();
 const JSONdb = require('simple-json-db');
 const db = new JSONdb('settings/db.json', { "jsonSpaces": 0 });
 const app = require('express')();
-const { WebSocketServer } = require("ws");
-const wss = new WebSocketServer({ port: ws });
+var expressWs = require('express-ws')(app);
 
 Lanyard.on("lanyard", upd);
 
@@ -21,15 +20,15 @@ app.get('/:id', (req, res) => {
     res.send(db.get(req.params.id))
 });
 
-wss.on('connection', function connection(ws) {
-    ws.on('message', function message(data) {
-        if (!db.has(data.id)) return ws.send({ ok: false })
-        ws.send(Object.assign({ ok: false }, db.get(data.id)));
+app.ws('/ws', function (ws, req) {
+    ws.on('message', function (msg) {
+        if (msg == "[object Object]") return ws.send(JSON.stringify({ ok: false}))
+        msg = JSON.parse(msg)
+        if (!db.has(msg.id)) return ws.send(JSON.stringify({ ok: false}))
+        ws.send(JSON.stringify(Object.assign({ ok: true}, db.get(msg.id))))
     });
-
-    ws.send({ ok: true });
+    ws.send({ ok: true})
 });
-
 
 app.listen(http, () => {
     console.log('server started');
