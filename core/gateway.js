@@ -29,7 +29,7 @@ payload = {
 class DiscordGateway extends EventEmitter {
   constructor() {
     super();
-    this.ws = new WebSocket("wss://gateway.discord.gg/?v=6&encoding=json");
+    this.ws = new WebSocket("wss://gateway.discord.gg/?v=10&encoding=json");
     this.ws.addEventListener("open", () => {
       this.ws.send(JSON.stringify(payload));
       this.emit("Websocket Open");
