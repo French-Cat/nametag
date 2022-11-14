@@ -1,15 +1,12 @@
 {
-  "name": "lanyard-clone",
+  "name": "nametag",
   "version": "0.0.1",
-  "description": "My attempt to clone lanyard in JS",
+  "description": "Simple Lanyard clone that does only what I need.",
   "main": "index.js",
-  "directories": {
-    "lib": "lib"
-  },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "node ."
   },
-  "author": "2M4U",
+  "author": "frcat.xyz",
   "license": "ISC",
   "dependencies": {
     "express": "^4.18.2",
