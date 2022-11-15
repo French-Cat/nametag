@@ -17,6 +17,7 @@ app.get('/', (req, res) => {
 });
 
 app.get('/:id', (req, res) => {
+    if (!db.has(req.params.id)) return res.send(JSON.stringify({ ok: false }))
     res.send(db.get(req.params.id))
 });
 
