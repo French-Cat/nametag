@@ -1,14 +1,15 @@
-const { ports: { http } } = require("./settings/config").config[0]
+const { port } = require("./settings/config").config[0]
 const DiscordGateway = require("./core/gateway");
 const Lanyard = new DiscordGateway();
 const JSONdb = require('simple-json-db');
-const db = new JSONdb('settings/db.json', { "jsonSpaces": 0 });
+const db = new JSONdb('settings/db.json');
 const app = require('express')();
 var expressWs = require('express-ws')(app);
 
 Lanyard.on("lanyard", upd);
 
 function upd(data) {
+    console.log(data)
     db.set(data.user.id, data)
 }
 
@@ -31,6 +32,6 @@ app.ws('/ws', function (ws, req) {
     ws.send({ ok: true })
 });
 
-app.listen(http, () => {
+app.listen(port, () => {
     console.log('server started');
 });

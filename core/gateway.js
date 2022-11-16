@@ -1,5 +1,6 @@
 const { EventEmitter } = require("events");
 const { WebSocket } = require("ws");
+const fetchUser = require("./fetch");
 const { token, activity, users } = require("../settings/config").config[0];
 payload = {
   op: 2,
@@ -20,8 +21,7 @@ payload = {
         },
       ],
       large_threshold: 250,
-      status: "dnd",
-      since: 91879201,
+      status: "online",
       afk: false,
     },
   },
@@ -64,7 +64,11 @@ class DiscordGateway extends EventEmitter {
     switch (t) {
       case "READY":
       case "PRESENCE_UPDATE":
-        if (users.includes(d.user.id)) return this.emit("lanyard", d);
+        if (d.user.id == users) {
+          d.user = await fetchUser(users)
+          delete d.status
+          return this.emit("lanyard", d);
+        }
     }
   }
 }
