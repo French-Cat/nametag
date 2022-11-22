@@ -1,3 +1,4 @@
+TODO: Rewrite
 # nametag
 Simple Lanyard clone that does only what I need.
 ## setup
